@@ -35,7 +35,7 @@
 					<section>
 						<h2>Organització</h2>
 						<p>Projecte organitzat en dos paquets.</p>
-						<p>El <a href="https://github.com/davidmgilo/timetables">primer</a> instal·lable gràcies a composer i el <a href="https://github.com/davidmgilo/timetables_test">segon</a> l'utilitza en una aplicació Laravel..</p>
+						<p>El <a href="https://github.com/davidmgilo/timetables">primer</a> instal·lable gràcies a composer i el <a href="https://github.com/davidmgilo/timetables_test">segon</a> l'utilitza en una aplicació Laravel.</p>
 					</section>
 					<section>
 						<h2>Organització</h2>
@@ -50,11 +50,24 @@
 				<section>
 					<section>
 						<h2>Arquitectura</h2>
-						<p>Projecte organitzat en dos paquets.</p>
-						<p>El <a href="https://github.com/davidmgilo/timetables">primer</a> instal·lable gràcies a composer i el <a href="https://github.com/davidmgilo/timetables_test">segon</a> l'utilitza en una aplicació Laravel..</p>
+						<p>Arquitectura client-servidor (MVC). Cada part del projecte s'encarrega d'una feina concreta.</p>
+						<ol>
+							<li>El model s'encarrega de la definició de les dades.</li>
+							<li>La vista s'encarrega d'interactuar amb l'usuari.</li>
+							<li>El controlador s'encarrega de persistir les dades que rep i enviar les dades a la vista.</li>
+						</ol>
+					</section>
+					<section>
+						<h2>Exemples</h2>
+						<p><a href="https://github.com/davidmgilo/timetables/blob/master/src/Models/Lesson.php">Model</a></p>
+						<p><a href="https://github.com/davidmgilo/timetables/blob/master/resources/views/lessons/index.blade.php">Vista</a></p>
+						<p><a href="https://github.com/davidmgilo/timetables/blob/master/src/Http/Controllers/LessonsController.php">Controlador</a></p>
 					</section>
 				</section>
-				<section>3</section>
+				<section>
+					<h2>Base de dades</h2>
+					<img src="/assets/img/diagram.png" alt="Imatge Base de dades">
+				</section>
 				<section>4</section>
 			</div>
 		</div>
