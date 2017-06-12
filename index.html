@@ -65,10 +65,46 @@
 					</section>
 				</section>
 				<section>
-					<h2>Base de dades</h2>
-					<img src="/assets/img/diagram.png" alt="Imatge Base de dades">
+					<section>
+						<h2>Base de dades</h2>
+						<img HEIGHT="50%" WIDTH="50%" src="/assets/img/diagram.png" alt="Imatge Base de dades">
+					</section>
+					<section>
+						<h2>Base de dades- Relacions</h2>
+						<p>Ús de relacions OneToMany i ManyToMany</p>
+						<pre><code class="hljs">
+public function classrooms()
+{
+	return $this->belongsTo(\Scool\Timetables\Models\Classroom::class);
+}
+
+
+public function users()
+{
+	return $this->belongsToMany(\App\User::class);
+}
+						</code></pre>
+					</section>
+					<section>
+						<h2>Base de dades- Relacions</h2>
+						<p>Exemples d'ús:</p>
+						<pre><code class="hljs">
+if ($request->has('user_id')) {
+	$user_id = $request->input('user_id');
+	$user = \App\User::find($user_id);
+	$lesson->users()->save($user);
+}
+
+$lessons = $this->repository->with(['users'])->paginate(2);
+						</code></pre>
+						<p>En el segon exemple, s'indica que es vol rebre la lliçó amb Eager-Loading per obtenir les dades de l'usuari a la vegada.</p>
+					</section>
 				</section>
-				<section>4</section>
+				<section>
+					<section>
+						<h2>CRUD</h2>
+					</section>
+				</section>
 			</div>
 		</div>
 
