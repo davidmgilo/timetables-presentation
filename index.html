@@ -99,6 +99,11 @@ $lessons = $this->repository->with(['users'])->paginate(2);
 						</code></pre>
 						<p>En el segon exemple, s'indica que es vol rebre la lliçó amb Eager-Loading per obtenir les dades de l'usuari a la vegada.</p>
 					</section>
+					<section>
+						<h2>API</h2>
+						<p>Utilitza com a base el projecte l5-repository.</p>
+						<p>Inclou l'ús de repository pattern, transformers, validadors i respostes en Json des del controlador.</p>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -143,6 +148,15 @@ EventBus.$on('created', event => {
 })
 						</code></pre>
 					</section>
+					<section>
+						<h2>Plantilla</h2>
+						<p>Utilitza adminlte com a plantilla base.</p>
+						<p>La plantilla de la taula i el formulari són d'adminlte.</p>
+					</section>
+					<section>
+						<h2>Formularis</h2>
+						<p>Utilitzen el paquet <a href="https://www.npmjs.com/package/acacha-forms">acacha-forms</a> i, per tant, inclouen un spinner que es pot utilitzar.</p>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -168,11 +182,37 @@ return false;
 				<section>
 					<section>
 						<h2>Social login</h2>
+						<p>Basat en un <a href="https://github.com/davidmgilo/timetables_test/blob/master/app/Http/Controllers/Auth/MySocialAuthController.php">controlador</a> que escull la classe que s'encarrega de crear un usuari segons el tipus de xarxa social que sigui.</p>
+					</section>
+					<section>
+						<h2>Social login</h2>
+						<pre><code class="hljs">
+public static $services =[
+      'github' => GithubAuth::class,
+      'facebook' => FacebookAuth::class,
+      'google' => GoogleAuth::class,
+      'twitter' => TwitterAuth::class,
+    ];
+
+$authUser = self::$services[$provider]::findOrCreateUser($user);
+						</code></pre>
+						<p>Aquest estil permet ampliar la funcionalitat sense haver de tocar el codi ja previàment creat.</p>
 					</section>
 				</section>
 				<section>
 					<section>
 						<h2>Email</h2>
+						<p>Per enviar el mail de reset password, sobreescric la funció del model User.</p>
+						<pre><code class="hljs"> public function sendPasswordResetNotification($token)
+{
+	$this->notify(new CustomResetPasswordNotification($token));
+}</code></pre>
+					</section>
+					<section>
+						<h2>Email</h2>
+						<p>Utilitza una <a href="https://github.com/davidmgilo/timetables_test/blob/master/app/Notifications/CustomResetPasswordNotification.php">notificació</a> com a controlador del enviament del mail.</p>
+						<p>La notificació és cuable.</p>
+						<p>I una <a href="https://github.com/davidmgilo/timetables_test/blob/master/resources/views/mail/myreset.blade.php">vista</a> com a cos del missatge.</p>
 					</section>
 				</section>
 			</div>
