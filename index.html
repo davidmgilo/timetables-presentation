@@ -103,6 +103,45 @@ $lessons = $this->repository->with(['users'])->paginate(2);
 				<section>
 					<section>
 						<h2>CRUD</h2>
+						<p>Permet crear, modificar, borrar i consultar lliçons.</p>
+						<p>Exemple a la pàgina de la <a href="http://timetables.davidmartinez.sintesi.acacha.org:8080/">demo</a>.</p>
+					</section>
+					<section>
+						<h2>Estructura</h2>
+						<img src="https://vuejs.org/images/props-events.png" alt="">
+					</section>
+					<section>
+						<h2>Exemple</h2>
+						<pre><code class="hljs">
+<lesson v-for="(lesson,index) in lessons"
+		:key="lesson.id"
+		:lesson="lesson"
+		:index="index"
+		:from="from"
+		@lesson-updated="passUpdate"
+		@lesson-deleted="deleteLesson"></lesson>
+
+deleteLesson: function(){
+	this.$emit('lesson-deleted', this.index, this.lesson.id);
+},
+						</code></pre>
+					</section>
+					<section>
+						<h2>Estructura</h2>
+						<img src="https://qph.ec.quoracdn.net/main-qimg-a0b030a2a51546b05bb3e7c904947f0b" alt="">
+					</section>
+					<section>
+						<h2>Exemple</h2>
+						<pre><code class="hljs">
+EventBus.$emit('created', response.data.message)
+
+EventBus.$on('created', event => {
+	console.log(event)
+	this.messageOk = true
+	this.errored = false
+	this.message = event
+})
+						</code></pre>
 					</section>
 				</section>
 			</div>
