@@ -144,6 +144,37 @@ EventBus.$on('created', event => {
 						</code></pre>
 					</section>
 				</section>
+				<section>
+					<section>
+						<h2>Permisos</h2>
+						<p>Ús del paquet <a href="https://github.com/spatie/laravel-permission">laravel permissions</a> per donar permisos en les diferents parts del paquet </p>
+					</section>
+					<section>
+						<h2>Exemples</h2>
+						<pre><code class="hljs">
+$user = $this->createUser('Sergi Tur','sergitur@prova.com','123456');
+$user->assignRole('manage lessons');
+
+if(Auth::user()->can('add lessons')) return true;
+return false;
+						</code></pre>
+					</section>
+					<section>
+						<h2>Permisos i esdeveniments</h2>
+						<p>Al crear un usuari, en la demo se li donen permisos per a poder crear i editar lliçons a través d'un esdeveniment</p>
+						<p>El <a href="https://github.com/davidmgilo/timetables_test/blob/master/app/Listeners/UserRegistered.php">codi</a> es pot trobar al paquet de test.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Social login</h2>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Email</h2>
+					</section>
+				</section>
 			</div>
 		</div>
 
