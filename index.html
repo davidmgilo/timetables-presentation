@@ -82,6 +82,21 @@
 						<p>El projecte l'utilitza per dividir entre el treball amb la base de dades (backend) i el treball amb el client (frontend). La comunicació és fa a través la API amb peticions.</p>
 						<img src="https://codeplanet.io/wp-content/uploads/2013/12/rest_api.jpg" alt="">
 					</section>
+					<section>
+						<h2>Seguretat</h2>
+						<p>El projecte utilitza laravel-passport per obtenir seguretat en api i autenticació per a seguretat web.</p>
+						<pre><code class="hljs">'guards' => [
+	'web' => [
+		'driver' => 'session',
+		'provider' => 'users',
+	],
+
+	'api' => [
+		'driver' => 'passport',
+		'provider' => 'users',
+	],
+],</code></pre>
+					</section>
 				</section>
 				<section>
 					<section>
