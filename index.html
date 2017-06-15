@@ -46,6 +46,20 @@
 						<h2>Packagist</h2>
 						<p>Projecte pujat a <a href="https://packagist.org/packages/davidmgilo/timetables">packagist</a>, llest per instal·lar en una aplicació Laravel.</p>
 					</section>
+					<section>
+						<h2>Travis i studio</h2>
+						<p>Al utilitzar studio per fer soft link i treballar sense haver de penjar-ho, cal dir-li a travis que ha de fer per trobar aquests paquets.</p>
+						<pre><code class="hljs">before_script:
+  - sudo apt-get install unzip
+  - wget https://github.com/davidmgilo/timetables/archive/master.zip -O ~/timetables-master.zip
+  - unzip ~/timetables-master.zip
+  - wget https://github.com/acacha/l5-repository/archive/master.zip -O ~/l5-repository-master.zip
+  - unzip ~/l5-repository-master.zip
+  - cp studio.travis.json studio.json
+  - composer update
+  - composer install --prefer-source --no-interaction --dev
+						</code></pre>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -62,6 +76,11 @@
 						<p><a href="https://github.com/davidmgilo/timetables/blob/master/src/Models/Lesson.php">Model</a></p>
 						<p><a href="https://github.com/davidmgilo/timetables/blob/master/resources/views/lessons/index.blade.php">Vista</a></p>
 						<p><a href="https://github.com/davidmgilo/timetables/blob/master/src/Http/Controllers/LessonsController.php">Controlador</a></p>
+					</section>
+					<section>
+						<h2>Arquitectura API</h2>
+						<p>El projecte l'utilitza per dividir entre el treball amb la base de dades (backend) i el treball amb el client (frontend). La comunicació és fa a través la API amb peticions.</p>
+						<img src="https://codeplanet.io/wp-content/uploads/2013/12/rest_api.jpg" alt="">
 					</section>
 				</section>
 				<section>
@@ -112,11 +131,12 @@ $lessons = $this->repository->with(['users'])->paginate(2);
 						<p>Exemple a la pàgina de la <a href="http://timetables.davidmartinez.sintesi.acacha.org:8080/">demo</a>.</p>
 					</section>
 					<section>
-						<h2>Estructura</h2>
+						<h2>API components Vue - Props</h2>
 						<img src="https://vuejs.org/images/props-events.png" alt="">
 					</section>
 					<section>
 						<h2>Exemple</h2>
+						<p>En aquest cas, el pare lessons envia les dades al fill lesson per mitja de propietats i espera que el fill indiqui quan es vol borrar o modificar una lliço.</p>
 						<pre><code class="hljs">
 <lesson v-for="(lesson,index) in lessons"
 		:key="lesson.id"
@@ -132,11 +152,28 @@ deleteLesson: function(){
 						</code></pre>
 					</section>
 					<section>
-						<h2>Estructura</h2>
+						<h2>API components Vue - Store</h2>
 						<img src="https://qph.ec.quoracdn.net/main-qimg-a0b030a2a51546b05bb3e7c904947f0b" alt="">
 					</section>
 					<section>
 						<h2>Exemple</h2>
+						<p>Un fitxer store s'encarrega de guardar la uri de la API per a que qualsevol component la pugui utilitzar</p>
+						<pre><code class="hljs">const store = {
+    LESSONS_URI: 'api/v1/lessons/',
+}
+export default store
+
+import store from './../store'
+...
+axios.get(store.LESSONS_URI...</code></pre>
+					</section>
+					<section>
+						<h2>API components Vue - EventBus</h2>
+						<img src="data:image/png;base64,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" HEIGHT="60%" WIDTH="60%" alt="">
+					</section>
+					<section>
+						<h2>Exemple</h2>
+						<p>L'utilitzo per comunicar dos components que no tenen relació pare-fill.</p>
 						<pre><code class="hljs">
 EventBus.$emit('created', response.data.message)
 
@@ -156,6 +193,11 @@ EventBus.$on('created', event => {
 					<section>
 						<h2>Formularis</h2>
 						<p>Utilitzen el paquet <a href="https://www.npmjs.com/package/acacha-forms">acacha-forms</a> i, per tant, inclouen un spinner que es pot utilitzar.</p>
+						<p>Aquest paquet, permet un control més fàcil dels errors al enviar els formularis. Aquest control permet millorar la interfície del formulari per a fer-ho més agradable a ulls del usuari.</p>
+					</section>
+					<section>
+						<h2>Formularis - Exemple UserExperience</h2>
+						<img src="http://i.imgur.com/8r9VwQl.png" alt="">
 					</section>
 				</section>
 				<section>
@@ -177,6 +219,13 @@ return false;
 						<h2>Permisos i esdeveniments</h2>
 						<p>Al crear un usuari, en la demo se li donen permisos per a poder crear i editar lliçons a través d'un esdeveniment</p>
 						<p>El <a href="https://github.com/davidmgilo/timetables_test/blob/master/app/Listeners/UserRegistered.php">codi</a> es pot trobar al paquet de test.</p>
+					</section>
+					<section>
+						<h2>Menú</h2>
+						<p>El menu utilitza els permisos per mostrar o no un link segons si es tenen per a accedir-hi.</p>
+						<pre><code class="hljs">->linkIfCan('browse lessons', '/lessons', 'Lessons')
+						</code></pre>
+						<p>Usuari en la <a href="http://timetables.davidmartinez.sintesi.acacha.org:8080/">demo</a> sense permisos: 'user@prova.com' amb contrasenya: '123456'</p>
 					</section>
 				</section>
 				<section>
@@ -213,6 +262,54 @@ $authUser = self::$services[$provider]::findOrCreateUser($user);
 						<p>Utilitza una <a href="https://github.com/davidmgilo/timetables_test/blob/master/app/Notifications/CustomResetPasswordNotification.php">notificació</a> com a controlador del enviament del mail.</p>
 						<p>La notificació és cuable.</p>
 						<p>I una <a href="https://github.com/davidmgilo/timetables_test/blob/master/resources/views/mail/myreset.blade.php">vista</a> com a cos del missatge.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Vista Pròpia</h2>
+						<p>Mostra l'horari actual de l'usuari connectat.</p>
+						<img src="http://i.imgur.com/ocEcCqG.png" alt="">
+					</section>
+					<section>
+						<h2>Estructura</h2>
+						<p>Dos components Vue. El <a href="https://github.com/davidmgilo/timetables_test/blob/master/resources/assets/js/components/PersonalCalendar.vue">primer</a> és el pare que rep les dades i forma els events que passen al <a href="https://github.com/davidmgilo/timetables_test/blob/master/resources/assets/js/components/Calendar.vue">fill</a> com a propietat.</p>
+						<p>El fill està fet en base a FullCalendar i utilitza les llibreries de fullcalendar i moment.</p>
+					</section>
+					<section>
+						<h2>Codi</h2>
+						<p>Per obtenir les lliçons de l'usuari, s'utilitza <a href="https://laravel.com/docs/5.2/eloquent-relationships#lazy-eager-loading">Lazy Eager Loading</a></p>
+						<pre><code class="hljs">Route::get('/user', function () {
+    return Auth::user()->load('lessons');
+}</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Tests Unitaris</h2>
+						<p>Comproven la API i la Autentificació</p>
+						<pre><code class="hljs">public function testNotAuthorizedIndex()
+{
+	$user = $this->loginNotAuthorized();
+	$response = $this->get('/lessons');
+	$this->assertEquals(403, $response->status());
+}
+
+public function testIndexNotLogged()
+{
+	$this->get('lessons');
+	$this->assertRedirectedTo('login');
+}</code></pre>
+					</section>
+					<section>
+						<h2>Tests Dusk</h2>
+						<p>Comproven l'estat del front-end</p>
+						<pre><code class="hljs">public function testNotAuthorized()
+{
+	$this->browse(function (Browser $browser) {
+		$browser->visit('/home')
+			->assertPathIs('/login');
+	});
+}</code></pre>
 					</section>
 				</section>
 			</div>
@@ -256,7 +353,7 @@ $authUser = self::$services[$provider]::findOrCreateUser($user);
 					// providing an array of objects with 'title', 'icon'
 					// properties, and either a 'src' or 'content' property.
 					custom: [
-							{ title: 'Custom', icon: '<i class="fa fa-bookmark">', src: 'links.html' },
+							{ title: 'Links', icon: '<i class="fa fa-bookmark">', src: 'links.html' },
 						],
 
 					// Specifies the themes that will be available in the themes
